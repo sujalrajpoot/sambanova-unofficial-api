@@ -1,122 +1,151 @@
 # Sambanova Unofficial API
 
-## Overview
+## 🚨 Important Disclaimer
 
-The **Sambanova Unofficial API** is a Python client designed to interact with the Sambanova AI platform. This API allows users to perform text-based and vision-based tasks using various AI models provided by Sambanova. The client supports chat interactions and image analysis, making it a versatile tool for developers looking to integrate AI capabilities into their applications.
+**EDUCATIONAL PURPOSE ONLY**
 
-## Features
+This project is created **purely for educational purposes** to demonstrate Python programming concepts, API client design patterns, and modern software engineering practices. It is **not** an official API client and should be used with the following understanding:
 
-- **Chat Functionality**: Engage in conversations with AI models using text prompts.
-- **Vision Functionality**: Analyze images and receive detailed descriptions based on the content of the images.
-- **Model Selection**: Choose from a variety of pre-defined AI models for both chat and vision tasks.
-- **Streaming Responses**: Receive real-time responses from the API during interactions.
+- This is an unofficial implementation and is not affiliated with, endorsed by, or connected to Sambanova Systems, Inc.
+- The code is provided as-is for learning purposes only
+- Users should respect Sambanova's terms of service and API usage guidelines
+- This implementation should not be used in production environments
+- Users are responsible for ensuring their usage complies with all applicable terms, conditions, and laws
 
-## Installation
+## 🎯 Project Overview
 
-To use the Sambanova Unofficial API, follow these steps:
+This library provides a Python interface for interacting with Sambanova's API, implementing both chat and vision capabilities. It showcases modern Python development practices including:
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/sujalrajpoot/sambanova-unofficial-api.git
-   cd sambanova_unofficial_api
-   ```
+- Object-Oriented Programming principles
+- Type hints and static typing
+- Error handling patterns
+- Clean code architecture
+- API client design patterns
 
-2. **Install Required Packages**:
-   Make sure you have Python installed (version 3.6 or higher). Then, install the required packages using pip:
-   ```bash
-   pip install requests
-   ```
+## 🚀 Features
 
-3. **Set Up Your API Cookies**:
-   You will need to obtain your API cookies from the Sambanova platform. Replace the placeholder in the code with your actual cookies.
+- Chat API interface with support for multiple models
+- Vision API interface for image analysis
+- Structured response handling
+- Streaming response support
+- Comprehensive error handling
+- Type-safe implementation
+- Configurable model selection
 
-## Usage
+## 📋 Requirements
 
-### Importing the API
+- Python 3.8+
+- Required packages:
+  - cloudscraper
+  - typing
+  - dataclasses (included in Python 3.7+)
 
-- To use the API in your Python script, import the `Sambanova_Unofficial_API` class:
-```python
-from sambanova_unofficial_api import Sambanova_Unofficial_API
+## 📦 Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/sujalrajpoot/sambanova-unofficial-api.git
+cd sambanova-unofficial-api
 ```
 
-
-### Initializing the API
-
-- Create an instance of the API by providing your cookies:
-```python
-api = Sambanova_Unofficial_API('your_cookies_here')
+2. Install required packages:
+```bash
+pip install cloudscraper
 ```
 
-### Chat Function
+## 🔧 Usage
 
-- To interact with the chat functionality, use the `chat` method:
+### Basic Usage
+
 ```python
-response = api.chat(prompt='Hi, who are you?', model='Meta-Llama-3.2-1B-Instruct')
-print(response)
+from sambanova_api import SambanovaAPI
+
+# Initialize the API client
+api = SambanovaAPI('your_cookies_here')
+
+# Chat example
+chat_response = api.chat("What is machine learning?")
+print(f"Chat Response: {chat_response.content}")
+
+# Vision example
+vision_response = api.vision(
+    "Describe this image",
+    image_path="path/to/your/image.jpg"
+)
+print(f"Vision Response: {vision_response.content}")
 ```
 
-### Vision Function
+### Advanced Usage
 
-- To analyze an image, use the `vision` method:
+#### Custom Model Configuration
+
 ```python
-image_path = 'path_to_your_image.jpg'
-response = api.vision(prompt='Describe this image.', image_path=image_path)
-print(response)
+from sambanova_api import ChatModelConfig, VisionModelConfig
+
+# Configure specific models
+chat_config = ChatModelConfig(model_name='Meta-Llama-3.1-70B-Instruct')
+vision_config = VisionModelConfig(model_name='Llama-3.2-90B-Vision-Instruct')
+
+# Use custom configurations
+chat_response = api.chat(
+    "Explain quantum computing",
+    model_config=chat_config,
+    max_tokens=4096
+)
+
+vision_response = api.vision(
+    "Analyze this image",
+    image_path="image.jpg",
+    model_config=vision_config
+)
 ```
 
+#### Error Handling
 
-### Available Models
+```python
+from sambanova_api import SambanovaAPIError, ModelNotFoundError
 
-- **Chat Models**:
-  - Meta-Llama-3.1-405B-Instruct
-  - Meta-Llama-3.1-70B-Instruct
-  - Meta-Llama-3.1-8B-Instruct
-  - Meta-Llama-3.2-1B-Instruct
-  - Meta-Llama-3.2-3B-Instruct
-  - Meta-Llama-Guard-3-8B
-  - Qwen2.5-Coder-32B-Instruct
-  - Qwen2.5-72B-Instruct
+try:
+    response = api.chat("Hello, world!")
+except ModelNotFoundError as e:
+    print(f"Invalid model selected: {e}")
+except SambanovaAPIError as e:
+    print(f"API error occurred: {e}")
+except Exception as e:
+    print(f"Unexpected error: {e}")
+```
 
-- **Vision Models**:
-  - Llama-3.2-11B-Vision-Instruct
-  - Llama-3.2-90B-Vision-Instruct
+---
 
-## Error Handling
+## 🤝 Contributing
 
-The API includes basic error handling for request failures. If a request fails, an error message will be printed, and the function will return `None`.
+While this project is primarily for educational purposes, contributions that improve the educational value are welcome:
 
-## Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-Contributions are welcome! If you have suggestions for improvements or new features, feel free to open an issue or submit a pull request.
+Please ensure your changes:
+- Include appropriate tests
+- Update documentation as needed
+- Follow the existing code style
+- Do not introduce production-use features
 
-## License
+## ⚠️ Final Notice
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+Remember that this is an unofficial implementation created for educational purposes. Always refer to Sambanova's official documentation and guidelines for production use cases.
 
-## Acknowledgments
-
-- Sambanova AI for providing the API.
-- The open-source community for their contributions and support.
-
-## Disclaimer
-This project is intended for educational purposes only. It is not affiliated with or endorsed by Sambanova. Users are advised to adhere to Sambanova's policies and guidelines when using this API. Any misuse of the API or violation of its terms of service is the sole responsibility of the user. The developers of this project do not condone any actions that may harm or disrupt the Sambanova platform.
-
-## Contact
-
-For any inquiries, please contact [sujalrajpoot70@gmail.com](mailto:sujalrajpoot70@gmail.com).
-
-## Contributing
-- Feel free to modify and adjust the content as necessary based on your specific project needs! Let me know if you'd like any changes or additions.
+---
+**Note**: This project is not affiliated with Sambanova Systems, Inc. All trademarks and registered trademarks are the property of their respective owners.
 
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-# Hi, I'm Sujal Rajpoot! 👋
-## 🔗 Links
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://sujalrajpoot.netlify.app/)
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/sujal-rajpoot-469888305/)
-[![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/sujalrajpoot70)
 
+## Contact
+For questions or support, please open an issue or reach out to the maintainer.
 
-## 🚀 About Me
-I'm a skilled full stack Python developer with expertise in object-oriented programming and website reverse engineering. With a strong background in programming and a passion for creating interactive and engaging web experiences, I specialize in crafting dynamic websites and applications. I'm dedicated to transforming ideas into functional and user-friendly digital solutions. Explore my portfolio to see my work in action.
+## Contributing
+
+Contributions are welcome! Please submit pull requests or open issues on the project repository.
